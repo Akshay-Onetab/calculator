@@ -26,6 +26,22 @@ Calculator project
   - const prod = multiply(4, 6);
   - const quotient = divide(10, 2);
 
+- ESM (TypeScript via ts-node)
+  - Run directly with ts-node (Node 18+):
+    - npx ts-node --esm -e "import { add, subtract, multiply, divide } from 'calculator'; console.log(add(2, 3), subtract(5, 2), multiply(4, 6), divide(10, 2));"
+
+- ESM (using built dist)
+  - After building, import from the compiled output:
+    - import { add, subtract, multiply, divide } from './dist/index.js';
+
+- CommonJS (via ts-node/register)
+  - Execute TypeScript in Node using ts-node/register:
+    - node -r ts-node/register -e "const { add, subtract, multiply, divide } = require('calculator'); console.log(add(2, 3), subtract(5, 2), multiply(4, 6), divide(10, 2));"
+
+- CommonJS (using built dist)
+  - Require the compiled output after build:
+    - const { add, subtract, multiply, divide } = require('./dist/index.cjs'); // or './dist/index.js' depending on build config
+
 ## API Reference
 
 - add(a: number, b: number): number
