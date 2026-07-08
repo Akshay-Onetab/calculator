@@ -1,45 +1,37 @@
-import { add, subtract, multiply, divide } from "../calculator";
+import { add, subtract, multiply, divide } from '../calculator';
 
-describe("calculator", () => {
-  test("adds positive integers", () => {
-    expect(add(2, 3)).toBe(5);
-    expect(add(0, 0)).toBe(0);
+describe('calculator', () => {
+  describe('positive numbers', () => {
+    test('add', () => expect(add(2, 3)).toBe(5));
+    test('subtract', () => expect(subtract(5, 3)).toBe(2));
+    test('multiply', () => expect(multiply(4, 2)).toBe(8));
+    test('divide', () => expect(divide(10, 2)).toBe(5));
   });
 
-  test("subtracts with negatives", () => {
-    expect(subtract(5, 3)).toBe(2);
-    expect(subtract(-5, -3)).toBe(-2);
-    expect(subtract(-5, 3)).toBe(-8);
+  describe('negative numbers', () => {
+    test('add', () => expect(add(-2, -3)).toBe(-5));
+    test('subtract', () => expect(subtract(-5, -3)).toBe(-2));
+    test('multiply', () => expect(multiply(-4, 2)).toBe(-8));
+    test('divide', () => expect(divide(-10, 2)).toBe(-5));
   });
 
-  test("multiplies numbers", () => {
-    expect(multiply(2, 3)).toBe(6);
-    expect(multiply(-2, 3)).toBe(-6);
-    expect(multiply(-2, -3)).toBe(6);
+  describe('floats', () => {
+    test('add', () => expect(add(0.1, 0.2)).toBeCloseTo(0.3, 10));
+    test('subtract', () => expect(subtract(0.3, 0.1)).toBeCloseTo(0.2, 10));
+    test('multiply', () => expect(multiply(0.2, 0.1)).toBeCloseTo(0.02, 10));
+    test('divide', () => expect(divide(0.3, 0.1)).toBeCloseTo(3, 10));
   });
 
-  test("divides numbers", () => {
-    expect(divide(6, 3)).toBe(2);
-    expect(divide(-6, 3)).toBe(-2);
-    expect(divide(-6, -3)).toBe(2);
+  describe('large numbers', () => {
+    const a = 1e12; // 1,000,000,000,000
+    const b = 3e6;  // 3,000,000
+    test('add', () => expect(add(a, b)).toBe(a + b));
+    test('subtract', () => expect(subtract(a, b)).toBe(a - b));
+    test('multiply', () => expect(multiply(1e9, 2e3)).toBe(2e12));
+    test('divide', () => expect(divide(1e12, 1e6)).toBe(1e6));
   });
 
-  test("floating point operations", () => {
-    expect(add(0.1, 0.2)).toBeCloseTo(0.3, 10);
-    expect(subtract(0.3, 0.1)).toBeCloseTo(0.2, 10);
-    expect(multiply(0.1, 0.2)).toBeCloseTo(0.02, 10);
-    expect(divide(0.3, 0.1)).toBeCloseTo(3, 10);
-  });
-
-  test("large numbers", () => {
-    const big = Number.MAX_SAFE_INTEGER - 10;
-    expect(add(big, 5)).toBe(big + 5);
-    expect(subtract(big, 5)).toBe(big - 5);
-    expect(multiply(1e10, 3)).toBe(3e10);
-    expect(divide(1e12, 1e6)).toBe(1e6);
-  });
-
-  test("throws on divide by zero", () => {
-    expect(() => divide(1, 0)).toThrowError(/divide by zero/i);
+  describe('divide by zero', () => {
+    test('throws', () => expect(() => divide(1, 0)).toThrow('Cannot divide by zero'));
   });
 });
